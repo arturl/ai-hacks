@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "jstat": "^1.9.6",
+    "openai": "^4.67.1",
+    "readline-sync": "^1.4.10",
+    "simple-statistics": "^7.8.5"
+  }
+}
