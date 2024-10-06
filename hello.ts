@@ -1,7 +1,7 @@
 import { OpenAI } from "openai";
 import { apiSystemPrompt } from "./apiSystemPrompt";
 import { measureExecutionTime } from "./measureTime";
-import { apiCallBuilderSystemPrompt } from "./apiCallBuilderSystemPrompt";
+import { apiCallBuilderSystemPrompt, function_Err, function_Get_Stack, function_Get_Update_Summary } from "./apiCallBuilderSystemPrompt";
 
 const openai = new OpenAI();
 
@@ -86,7 +86,7 @@ function buildAPICall(args: ApiCallBuilderToolArguments) : string {
     //
     let url = "";
     switch (args.function) {
-        case "Get Stacks":
+        case function_Get_Stack:
             // This is an example of imperative logic to build the URL depending on whether the project is provided
             if(args.project !== ""){
                 url = `https://api.bomboluni.com/api/user/stacks?organization=${args.organization}&project=${args.project}`;
@@ -95,11 +95,13 @@ function buildAPICall(args: ApiCallBuilderToolArguments) : string {
                 url = `https://api.bomboluni.com/api/user/stacks?organization=${args.organization}`;
             }
             break;
-        case "Get Update or Preview Summary and Diagnostics":
+        case function_Get_Update_Summary:
             url = `https://api.bomboluni.com/api/console/stacks/${args.organization}/${args.project}/${args.stack}/updates/${args.updateID}/summary`;
             break;
+        case function_Err:
+            throw Error(`ERROR: LLM was not able to determine the function to call`);
         default:
-            // throw an exception:
+            // This would be a bug
             throw Error(`ERROR: Unknown function '${args.function}'`);
     }
     return url;
@@ -167,7 +169,7 @@ async function main() {
     const query2 = "Summarize update 7 for the stack";
 
     console.log("--> Making API calls by letting the LLM generate the API call");
-
+/*
     await chat(completionToolForAPICall, userContext1, query1);
     await chat(completionToolForAPICall, userContext2, query2);
 
@@ -175,7 +177,7 @@ async function main() {
 
     await chat(completionToolForCallBuilder, userContext1, query1);
     await chat(completionToolForCallBuilder, userContext2, query2);
-
+*/
     // Error:
     await chat(completionToolForCallBuilder, userContext1, "Who is Donald Trump?");
 
