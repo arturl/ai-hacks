@@ -100,7 +100,7 @@ function buildAPICall(args: ApiCallBuilderToolArguments) : string {
             break;
         default:
             // throw an exception:
-            throw `ERROR: Unknown function ${args.function}`;
+            throw Error(`ERROR: Unknown function '${args.function}'`);
     }
     return url;
 }
@@ -128,7 +128,7 @@ async function chatImpl(tool: CompletionTool, userContext:string, userQuery: str
                     { role: "user", content: userContext + "\n" + userQuery },
                 ],
                 functions: [tool.function],
-                function_call: { name: tool.name},
+                function_call: { name: tool.name}
             });
 
         const toolCall = response.choices[0].message;
@@ -175,6 +175,9 @@ async function main() {
 
     await chat(completionToolForCallBuilder, userContext1, query1);
     await chat(completionToolForCallBuilder, userContext2, query2);
+
+    // Error:
+    await chat(completionToolForCallBuilder, userContext1, "Who is Donald Trump?");
 
     // Perf test: measure the time it takes to chat with the API call tool vs the caller (proxy) tool
 /*    
