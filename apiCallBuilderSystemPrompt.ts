@@ -12,6 +12,7 @@ Some IMPORTANT tips:
 3. When asked for available stacks, you must call the ${function_Get_Stack} function.
 4. When asked for a summary of updates or previews, you must call the ${function_Get_Update_Summary} function
 5. If you don't know what function to call, you must call \'Function not defined\'.
+6. Explain why you are calling the function you are calling in the \`{reason}\` parameter.
 
 # ${function_Get_Stack}
 

@@ -36,6 +36,7 @@ const apiCallerTool = {
 
 type ApiCallBuilderToolArguments = {
     function: string
+    reason: string
     organization: string
     project: string
     stack: string
@@ -51,6 +52,10 @@ const apiCallBuilderTool = {
             function: {
                 type: "string",
                 description: "The name of the function to call",
+            },
+            reason: {
+                type: "string",
+                description: "Explains why this function was chosen",
             },
             organization: {
                 type: "string",
@@ -169,7 +174,7 @@ async function main() {
     const query2 = "Summarize update 7 for the stack";
 
     console.log("--> Making API calls by letting the LLM generate the API call");
-/*
+
     await chat(completionToolForAPICall, userContext1, query1);
     await chat(completionToolForAPICall, userContext2, query2);
 
@@ -177,7 +182,7 @@ async function main() {
 
     await chat(completionToolForCallBuilder, userContext1, query1);
     await chat(completionToolForCallBuilder, userContext2, query2);
-*/
+
     // Error:
     await chat(completionToolForCallBuilder, userContext1, "Who is Donald Trump?");
 
