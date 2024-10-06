@@ -73,21 +73,21 @@ const apiCallBuilderTool = {
     },
 }
 
-// This function builds a API call. For now it's only the URL but can be expanded to include headers, body, etc.
+// This function builds an API call. For now it's only the Url but it can be expanded to include headers, body, etc.
 function buildAPICall(args: ApiCallBuilderToolArguments) : string {
     //
-    // LLM determined which function to call and gave us all the arguments it could figure out from the context
-    // This gives an opportunity to inspect the arguments, fix them up if necessary (maybe augmenting them based
+    // LLM has determined which function to call and gave us all the arguments it could figure out from the context.
+    // This gives us an opportunity to inspect the arguments, fix them up if necessary (maybe augmenting them based
     // on some other context that LLM did not have), and then form the Url if we're confident in the arguments.
-    // If the arguments are not sufficient, we can tell the user that we cannot make the call and ask for more information
-    // Or just return an error, which is better than making a call with bad arguments
+    // If the arguments are not sufficient, we can tell the user that we cannot make the call and ask for more information.
+    // Or we can return an error, which is better than making a call with bad arguments and emitting a confusing message to the user.
     //
-    // We can also call other functions to validate the arguments
+    // We can also call other REST APIs to validate the arguments, for example to see if the stack really exists.
     //
     let url = "";
     switch (args.function) {
         case function_Get_Stack:
-            // This is an example of imperative logic to build the URL depending on whether the project is provided
+            // This is an example of imperative logic to build the URL depending on whether the project is provided.
             if(args.project !== ""){
                 url = `https://api.bomboluni.com/api/user/stacks?organization=${args.organization}&project=${args.project}`;
             }
@@ -99,9 +99,10 @@ function buildAPICall(args: ApiCallBuilderToolArguments) : string {
             url = `https://api.bomboluni.com/api/console/stacks/${args.organization}/${args.project}/${args.stack}/updates/${args.updateID}/summary`;
             break;
         case function_Err:
+            // LLM decided to call this function, since other functions were not suitable
             throw Error(`LLM was not able to determine the function to call`);
         default:
-            // This would be a bug
+            // This would be a bug - it should not happen
             throw Error(`Unknown function '${args.function}'`);
     }
     return url;
