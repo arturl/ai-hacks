@@ -1,7 +1,8 @@
-// Anything unique is OK, does not need to be human readable (although it can be, to aid debugging)
-export const function_Get_Stack             = `ec1b9df1-35bc-4078-91b9-05cc18721882`
-export const function_Get_Update_Summary    = `918855e5-ca0d-4359-8f44-1f4a39d2b904`
-export const function_Err                   = `8ccd0fac-b43c-4ea6-9f4d-79954e7fb41f`
+
+// Meaningful names for the functions work better than UUIDs - they are measurably faster and good for debugging
+export const function_Get_Stack             = `Get_Stack`
+export const function_Get_Update_Summary    = `Get_Update_Summary`
+export const function_Err                   = `Error`
 
 export const apiCallBuilderSystemPrompt = `You are a helpful assistant.
 You are asked to call functions to get information for project and stacks in organizations.
@@ -11,8 +12,7 @@ Some IMPORTANT tips:
 2. Do not make up any parameters. If you don't have enough information, leave them empty
 3. When asked for available stacks, you must call the ${function_Get_Stack} function.
 4. When asked for a summary of updates or previews, you must call the ${function_Get_Update_Summary} function
-5. If you don't know what function to call, you must call \'Function not defined\'.
-6. Explain why you are calling the function you are calling in the \`{reason}\` parameter.
+5. If you don't know what function to call, you must call ${function_Err}.
 
 # ${function_Get_Stack}
 

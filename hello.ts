@@ -36,7 +36,6 @@ const apiCallerTool = {
 
 type ApiCallBuilderToolArguments = {
     function: string
-    reason: string
     organization: string
     project: string
     stack: string
@@ -52,10 +51,6 @@ const apiCallBuilderTool = {
             function: {
                 type: "string",
                 description: "The name of the function to call",
-            },
-            reason: {
-                type: "string",
-                description: "Explains why this function was chosen",
             },
             organization: {
                 type: "string",
@@ -104,10 +99,10 @@ function buildAPICall(args: ApiCallBuilderToolArguments) : string {
             url = `https://api.bomboluni.com/api/console/stacks/${args.organization}/${args.project}/${args.stack}/updates/${args.updateID}/summary`;
             break;
         case function_Err:
-            throw Error(`ERROR: LLM was not able to determine the function to call`);
+            throw Error(`LLM was not able to determine the function to call`);
         default:
             // This would be a bug
-            throw Error(`ERROR: Unknown function '${args.function}'`);
+            throw Error(`Unknown function '${args.function}'`);
     }
     return url;
 }
@@ -187,10 +182,10 @@ async function main() {
     await chat(completionToolForCallBuilder, userContext1, "Who is Donald Trump?");
 
     // Perf test: measure the time it takes to chat with the API call tool vs the caller (proxy) tool
-/*    
+/*
     for (let index = 0; index < 20; index++) {
         const before = await measureChatTime(completionToolForAPICall, userContext2, query2);
-        const after = await measureChatTime(completionToolForCaller, userContext2, query2);
+        const after = await measureChatTime(completionToolForCallBuilder, userContext2, query2);
         console.log(`${before}, ${after}`);
     }
 */
