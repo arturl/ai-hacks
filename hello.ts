@@ -8,6 +8,7 @@ import {
     function_Get_Update_Summary,
 } from "./apiCallBuilderSystemPrompt";
 import { slackBotApp } from "./slack-bot";
+import { aiSamples } from "./ai-samples";
 
 const openai = new OpenAI();
 
@@ -245,7 +246,11 @@ async function main() {
 // Immediately invoke the async function
 // main().catch(console.error);
 
+/*
 (async () => {
     await slackBotApp.start(process.env.PORT || 3000);
     console.log("Slack bot is running!");
 })();
+*/
+
+aiSamples().catch(console.error);
